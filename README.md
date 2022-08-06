@@ -1,5 +1,5 @@
 # Algorithm
-## Appendix
+## Index
 0. 알고리즘 분석
    1. [시간 복잡도](#시간-복잡도(Time-Complexity))
    2. [공간 복잡도](#공간-복잡도(Space-Complexity))
