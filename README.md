@@ -5,7 +5,13 @@
    1. [시간 복잡도](#시간-복잡도(Time-Complexity))
    2. [공간 복잡도](#공간-복잡도(Space-Complexity))
    3. 알고리즘의 정당성 증명 
-1. [References](#References)
+1. 정렬
+   1. Bubble sort
+   2. Insertion sort
+   3. Quick sort
+   4. Merge sort
+   5. Heap sort
+2. [References](#References)
 
 ## 알고리즘 분석
 동일한 작업을 수행하는 알고리즘이라 할지라도, 다른 성능을 갖게될 수 있습니다. 따라서 알고리즘마다 평가를 하기 위한 기준이 필요한데, 그 기준으로 시간 복잡도(time complexity)와 공간 복잡도(space complexity)를 사용합니다.
