@@ -5,12 +5,12 @@
    1. [시간 복잡도](#시간-복잡도(Time-Complexity))
    2. [공간 복잡도](#공간-복잡도(Space-Complexity))
    3. 알고리즘의 정당성 증명 
-1. 정렬
-   1. Bubble sort
-   2. Insertion sort
-   3. Quick sort
-   4. Merge sort
-   5. Heap sort
+1. [정렬](#정렬-알고리즘)
+   1. [Bubble sort](#Bubble-sort)
+   2. [Insertion sort](#Insertion-sort)
+   3. [Quick sort](#Quick-sort)
+   4. [Merge sort](#Merge-sort)
+   5. [Heap sort](#Heap-sort)
 2. [References](#References)
 
 ## 알고리즘 분석
@@ -69,6 +69,52 @@ int sum(int arr[]){
 위 예시 코드를 이용해 공간 복잡도를 표기하면 다음과 같습니다.
 $O(n)$
 인자로 전달되는 배열의 크기 n + res 변수 1
+
+## 정렬 알고리즘
+정렬 알고리즘은 computer science에서 중요시되는 문제중 하나로 원소들을 번호나 사전 순서와 같이 일정한 순서대로 열거하는 알고리즘입니다. 
+
+여러 가지의 정렬 알고리즘 중 대표적으로 사용되는 알고리즘 몇 가지를 정리해보면 다음과 같습니다.
+### Bubble sort
+bubble sort는 서로 인접한 두 개의 원소를 비교해가며 정렬해 나아가는 정렬 알고리즘입니다. n개의 원소가 배열에 속한다고 가정할 때, 0번에서 n-1번 인덱스의 원소까지 각각 최대 n번 인접한 원소를 비교하며 정렬을 수행하게 됩니다.
+
+단순하게, 반복적으로 인접 원소를 비교하며 앞으로 보내기 때문에 구현 과정이 간단하지만, 정렬 알고리즘 중 가장 비효율적인 알고리즘으로 bubble sort의 시간 복잡도는 $O(n^2)$입니다. 
+
+각각의 수행마다 최솟값을 맨 앞으로 보내주는 방식으로 정렬을 구현합니다. 
+
+#### example souce code (C++)
+```c
+#include <iostream>
+
+using namespace std;
+
+int main(){
+   int i, j, tmp;
+   int arr[10] = {1, 10, 5, 8, 7, 6, 4, 3, 2, 9};
+   
+   for(i = 0; i < 10; i++){
+      // 9, 10까지만 비교가 가능하기 때문에 9 - i까지 비교한다.
+      // arr[i]에는 매 시행에서의 최솟값이 배치된다.
+      for(j = 0; j < 9 - i; j++){
+         if(arr[j] > arr[j+1]){
+            // change two adjacent elements
+            tmp = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = tmp;
+         }
+      }
+   }
+   return 0;
+}
+```
+
+### Insertion sort
+
+### Quick sort
+
+### Merge sort
+
+### Heap sort
+
 
 ## References
 https://yoongrammer.tistory.com/79
