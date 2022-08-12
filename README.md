@@ -324,10 +324,165 @@ int main(){
 ```
 
 ### Heap sort
+heap 자료 구조를 이용한 정렬 알고리즘으로, 최대 힙을 사용하여 내림 차순으로 수열을 정렬할 수 있고, 최소 힙을 사용해서 오름 차순으로 정렬이 가능합니다.
 
+**최대 힙을 사용한 내림 차순 구현**
+
+1. 새로운 노드를 힙에 추가하는 경우 leaf 위치에 삽입한 후, reheapify 과정을 진행한다.
+2. 최대 힙(max heap)에서 root 노드를 heap이 빌 때까지 삭제한다.
+3. 삭제되는 root 노드를 순서대로 나열하면 내림 차순으로 정렬한 결과를 얻을 수 있다.
+
+![image](https://blogfiles.pstatic.net/MjAyMjAzMjdfNTMg/MDAxNjQ4MzY0MjA4MTMz.v1nS3JWYuyBBaDUHS23O7icSKpaWuZoHSULD6Qh59aEg.THer7XQU24VyHSHsaMBoVv_oVrC8Yq6YBs0zgqpjk2kg.PNG.book541/image.png)
+
+![image](https://postfiles.pstatic.net/MjAyMjAzMjdfMjUy/MDAxNjQ4MzY0MjcyMzQ4.jCL2_ny-NrkDdliVRmi_3RVz0sXYOoy38uquIh7hT9Qg.iSONKoo8KLrKe5_w7S0mjuJZhzVcYjjNfJI7CFsRWYAg.PNG.book541/image.png?type=w773)
+
+![image](https://postfiles.pstatic.net/MjAyMjAzMjdfNTEg/MDAxNjQ4MzY0NTU2MDIx.VtTIKYfAni_bOS-58ergNZ4uYzt-YI16r86ekTDPD4wg.0f3aF84lcfHDAvyosX5E8Gk37nkHcl-j5GatZfI7pTYg.PNG.book541/image.png?type=w773)
+
+위 그림의 예시와 같이 새로운 노드가 추가될 때에는 heap(complete binary tree) 구조의 말단(tail)에 삽입되고, 부모와 대소관계를 비교해서 힙을 재정렬하는 reheapify 과정을 거치게 됩니다.
+
+이러한 과정을 거쳐서 heap 정렬을 구현하면 다음 예시 코드와 같이 힙 정렬을 구현할 수 있습니다.
+
+#### example code (C++)
+
+```c
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int num = 9;
+int heap[9] = { 7, 6, 5, 8, 3, 5, 9, 1, 6 };
+vector<int> res;
+
+int main() {
+	// 첫번째 node부터 heapify
+	for (int i = 1; i < num; i++) {
+		int c = i;
+		do {
+			int root = (c - 1) / 2;
+			if (heap[root] < heap[c]) {
+				int tmp = heap[root];
+				heap[root] = heap[c];
+				heap[c] = tmp;
+			}
+			c = root;
+		} while (c != 0);
+	}
+
+	// 크기를 줄여가며 반복적으로 힙을 구성한다.
+	for (int i = num - 1; i >= 0; i--) {
+		// root를 result vector에 삽입한다.
+		res.push_back(heap[0]);
+		heap[0] = heap[i];
+
+		int root = 0;
+		int c = 1;
+		int tmp;
+
+		do {
+			c = 2 * root + 1;
+			// 두 자식 중 더 큰 값을 찾는다.
+			if (c < i - 1 && heap[c] < heap[c + 1])
+				c++;
+
+			// 루트보다 자식이 크다면 교환한다.
+			if (c < i && heap[root] < heap[c]) {
+				tmp = heap[root];
+				heap[root] = heap[c];
+				heap[c] = tmp;
+			}
+			// 한 층 아래로 내려간다.
+			root = c;
+		} while (c < i);
+		// 현재 정렬된 node 이전까지에 대해서 reheapify를 실행해야 하기 때문이다.
+	}
+
+	for (int i = 0; i < res.size(); i++) {
+		printf("%d ", res[i]);
+	}
+	printf("\n");
+	return 0;
+}
+```
+
+**최소 힙을 사용한 오름 차순 구현**
+
+1. 새로운 노드를 힙에 추가하는 경우 leaf 위치에 삽입한 후, reheapify 과정을 진행한다.
+2. 최소 힙(min heap)에서 root 노드를 heap이 빌 때까지 삭제한다.
+3. 삭제되는 root 노드를 순서대로 나열하면 오름 차순으로 정렬한 결과를 얻을 수 있다.
+
+최대 힙을 이용한다는 점을 제외하고는 동일한 방식으로 오름 차순으로 정렬하는 힙 정렬 알고리즘을 구현할 수 있습니다.
+
+#### example code (C++)
+
+```c
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int num = 9;
+int heap[9] = { 7, 6, 5, 8, 3, 5, 9, 1, 6 };
+vector<int> res;
+
+int main() {
+	// 첫번째 node부터 heapify
+	for (int i = 1; i < num; i++) {
+		int c = i;
+		do {
+			int root = (c - 1) / 2;
+			if (heap[root] > heap[c]) {
+				int tmp = heap[root];
+				heap[root] = heap[c];
+				heap[c] = tmp;
+			}
+			c = root;
+		} while (c != 0);
+	}
+
+	// 크기를 줄여가며 반복적으로 힙을 구성한다.
+	for (int i = num - 1; i >= 0; i--) {
+		// root를 result vector에 삽입한다.
+		res.push_back(heap[0]);
+		heap[0] = heap[i];
+
+		int root = 0;
+		int c = 1;
+		int tmp;
+
+		do {
+			c = 2 * root + 1;
+			// 두 자식 중 더 작은 값을 찾는다.
+			if (c < i - 1 && heap[c] > heap[c + 1])
+				c++;
+
+			// 루트보다 자식이 작다면 교환한다.
+			if (c < i && heap[root] > heap[c]) {
+				tmp = heap[root];
+				heap[root] = heap[c];
+				heap[c] = tmp;
+			}
+			// 한 층 아래로 내려간다.
+			root = c;
+		} while (c < i);
+		// 현재 정렬된 node 이전까지에 대해서 reheapify를 실행해야 하기 때문이다.
+	}
+
+	for (int i = 0; i < res.size(); i++) {
+		printf("%d ", res[i]);
+	}
+	printf("\n");
+	return 0;
+}
+```
 
 ## References
+시간 복잡도 개념  
 https://yoongrammer.tistory.com/79  
+
+점근적 표기법  
 https://ko.khanacademy.org/computing/computer-science/algorithms/asymptotic-notation/a/asymptotic-notation  
+
+quick sort 개념  
 https://blog.naver.com/PostView.naver?blogId=ndb796&logNo=221226813382&parentCategoryNo=&categoryNo=128&viewDate=&isShowPopularPosts=false&from=postList  
 
